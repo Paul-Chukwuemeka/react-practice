@@ -2,9 +2,10 @@
 import { use, useEffect, useState } from "react";
 import Values from "values.js";
 import { ToastContainer, toast } from "react-toastify";
+import HomeBtn from "../components/HomeBtn";
 
 const Page = () => {
-  const [colors, setColors] = useState(null);
+  const [colorsArr, setColorsArr] = useState(null);
   const [input, setInput] = useState("");
   const [color, setColor] = useState("white");
   const [errMssg, setErrMssg] = useState("");
@@ -15,7 +16,7 @@ const Page = () => {
   useEffect(() => {
     try {
       const res = new Values(color).all(10);
-      setColors(res);
+      setColorsArr(res);
     } catch (error) {
       setErrMssg(error.message);
     }
@@ -28,6 +29,7 @@ const Page = () => {
   }, [errMssg]);
   return (
     <div className="p-20 text-white  ">
+      <HomeBtn/>
       <ToastContainer />
       <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 text-4xl m-auto my-2 to-pink-500 w-fit">
         Color Generator
@@ -62,8 +64,8 @@ const Page = () => {
         />
       </form>
       <div className="grid max-w-[1200px] shrink-0 h-full m-auto max-xl:grid-cols-4 xl:grid-cols-5 max-lg:grid-cols-3 max-md:grid-cols-2 gap-2 max-sm:grid-cols-1">
-        {colors &&
-          colors.map((color, index) => {
+        {colorsArr &&
+          colorsArr.map((color, index) => {
             let colorstr = `rgb(${color.rgb.join(",")})`;
             return (
               <div

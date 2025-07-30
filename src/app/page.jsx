@@ -1,4 +1,4 @@
-import { TbNumber123 } from "react-icons/tb";
+import { TbNumber123,TbQuote,TbColorPicker,TbCloud } from "react-icons/tb";
 import Link from "next/link";
 
 function Home() {
@@ -19,12 +19,17 @@ function Home() {
         </Link>
         <Link href={"/Quotes-Generator"}>
           <button className="p-4 w-50 flex gap-1 items-center justify-center bg-green-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-green-600 active:scale-95 duration-450">
-            Quotes Generator
+            Quotes Generator <TbQuote />
           </button>
         </Link>
         <Link href={"/color-picker"}>
           <button className="p-4 w-50 flex gap-1 items-center justify-center bg-red-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-red-600 active:scale-95 duration-450">
-            Color picker
+            Color picker <TbColorPicker />
+          </button>
+        </Link>
+        <Link href={"/Weather-App"}>
+          <button className="p-4 w-50 flex gap-1 items-center justify-center bg-blue-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-blue-600 active:scale-95 duration-450">
+            Weather App <TbCloud />
           </button>
         </Link>
       </div>
