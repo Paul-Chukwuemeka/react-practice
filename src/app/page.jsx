@@ -32,6 +32,11 @@ function Home() {
             Weather App <TbCloud />
           </button>
         </Link>
+                <Link href={"/Decimal-to-binary"}>
+          <button className="p-4 w-50 flex gap-1 items-center justify-center bg-pink-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-pink-600 active:scale-95 duration-450">
+            Decimal To Binary <TbCloud />
+          </button>
+        </Link>
       </div>
     </div>
   );

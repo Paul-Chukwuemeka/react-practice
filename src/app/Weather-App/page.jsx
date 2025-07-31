@@ -144,7 +144,7 @@ const Page = () => {
                     className="shrink-0 border-2 w-50 flex items-center justify-center flex-col"
                   >
                     <h1 className="text-lg">
-                      {dayjs(day.date).format("dddd")}
+                      {dayjs(day.date).format("dddd, MMMM,YYYY")}
                     </h1>
                     <div className="flex flex-col justify-center items-center">
                       <Image
