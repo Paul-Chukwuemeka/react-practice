@@ -1,5 +1,7 @@
-import { TbNumber123,TbQuote,TbColorPicker,TbCloud } from "react-icons/tb";
+import { TbNumber123, TbQuote, TbColorPicker, TbCloud } from "react-icons/tb";
 import Link from "next/link";
+import { MdMovie }  from "react-icons/md";
+
 
 function Home() {
   return (
@@ -32,11 +34,23 @@ function Home() {
             Weather App <TbCloud />
           </button>
         </Link>
-                <Link href={"/Decimal-to-binary"}>
+        <Link href={"/Decimal-to-binary"}>
           <button className="p-4 w-50 flex gap-1 items-center justify-center bg-pink-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-pink-600 active:scale-95 duration-450">
             Decimal To Binary <TbCloud />
           </button>
         </Link>
+      </div>
+      <div className="flex flex-col items-center mt-5">
+        <h2 className="text-subheader text-size-subheader ">
+          Intermediate Projects
+        </h2>
+
+        <Link href="/movie-db">
+          <button className="p-4 w-50 flex gap-1 items-center justify-center bg-amber-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-amber-600 active:scale-95 duration-450">
+            Movie Database <MdMovie />
+          </button>
+        </Link>
+        
       </div>
     </div>
   );

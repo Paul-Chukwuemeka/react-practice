@@ -19,7 +19,7 @@ div {
   background: lab(0% 0 0 / 0) 31e;
 }
 
-.forecast::-webkit-scrollbar {
+.forecast::-webkit-scrollbar,.movies::-webkit-scrollbar {
   display: none;
 }
 
