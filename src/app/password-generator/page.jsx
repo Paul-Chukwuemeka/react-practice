@@ -1,0 +1,139 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { FaLongArrowAltRight, FaCheck } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa6";
+
+function Page() {
+  const [passwordLength, setPasswordLength] = useState(4);
+  const [checks,setChecks] = useState({
+    uppercase:false,
+    lowercase:false,
+    numbers:false,
+    symbols:false
+  })
+  const [chars, setChars] = useState("");
+  const [password, setPassword] = useState("");
+  const [strength, setStrength] = useState(0);
+
+  const options = {
+    Uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    Lowercase: "abcdefghijklmnopqrstuvwxyz",
+    Numbers: "0123456789",
+    Symbols: "!@#$%^&*()",
+  };
+
+  useEffect(() => {
+    setChars("");
+    if (checks.uppercase) setChars((prev) => prev + options.Uppercase);
+    if (checks.lowercase) setChars((prev) => prev + options.Lowercase);
+    if (checks.numbers) setChars((prev) => prev + options.Numbers);
+    if (checks.symbols) setChars((prev) => prev + options.Symbols);
+
+    let value = 0
+    for (let key in checks){
+        if(checks[key] == true) value++ 
+    }
+    setStrength(value)
+  }, [checks]);
+
+  function generatePassword() {
+    setPassword("");
+   if(chars){
+     for (let i = 0; i <= passwordLength; i++) {
+        const random = Math.floor(Math.random() * chars.length)
+        console.log(chars[random])
+        setPassword((prev)=> prev + chars[random])
+    }
+   }
+  }
+
+  return (
+    <div className="w-full gap-10 h-screen flex flex-col items-center text-white p-20">
+      <h1 className=" text-3xl font-bold">Password Generator</h1>
+      <div className="bg-gray-800 h-130 gap-4 flex flex-col rounded-lg p-2 shadow-lg w-full max-w-120">
+        <div className="flex  w-full items-center justify-between px-10 bg-gray-900 h-15 rounded-lg">
+          <h1 className="text-2xl font-bold">
+            {password ? password : "Password"}
+          </h1>
+          <button className="text-3xl cursor-pointer active:scale-95 hover:text-green-500">
+            <FaCopy />
+          </button>
+        </div>
+        <div className="bg-gray-900 flex flex-col gap-2 p-4 rounded-lg flex-1">
+          <div className="flex items-center text-lg justify-between">
+            <h3>Character Length</h3>
+            <p className="text-2xl font-bold text-green-500">
+              {passwordLength}
+            </p>
+          </div>
+          <input
+            type="range"
+            value={passwordLength}
+            onChange={(e) => setPasswordLength(e.target.value)}
+            min={4}
+            max={16}
+            className="w-full"
+          />
+          <div className="flex flex-col py-4 gap-2">
+            <span className="text-lg flex items-center gap-2 font-bold">
+              <button
+                className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
+                onClick={() => setChecks({...checks,uppercase:!checks.uppercase})}
+              >
+                {checks.uppercase && <FaCheck />}
+              </button>
+              Include Uppercase Letters
+            </span>
+            <span className="text-lg flex items-center gap-2 font-bold">
+              <button
+                className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
+                onClick={() => setChecks({...checks,lowercase:!checks.lowercase})}
+              >
+                {checks.lowercase && <FaCheck />}
+              </button>
+              Include Lowercase Letters
+            </span>
+            <span className="text-lg flex items-center gap-2 font-bold">
+              <button
+                className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
+                onClick={() => setChecks({...checks,numbers:!checks.numbers})}
+              >
+                {checks.numbers && <FaCheck />}
+              </button>
+              Include Number
+            </span>
+            <span className="text-lg flex items-center gap-2 font-bold">
+              <button
+                className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
+                onClick={() => setChecks({...checks,symbols:!checks.symbols})}
+              >
+                {checks.symbols && <FaCheck />}
+              </button>
+              Include Symbols
+            </span>
+          </div>
+
+          <div className="flex font-bold items-center justify-between bg-gray-800 p-4 text-2xl">
+            <h3 className="">Strength</h3>
+            <div className=" flex gap-1 h-full *:border *:w-4 *:h-full">
+              <div className={``}></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <button
+            className="flex hover:bg-green-500 active:scale-95 cursor-pointer items-center justify-center h-18 my-2 rounded-lg text-xl gap-1  border-green-500 border"
+            onClick={() => {
+              generatePassword();
+            }}
+          >
+            Generate <FaLongArrowAltRight className="text-3xl" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Page;

@@ -1,21 +1,11 @@
 "use client";
-import axios from "axios";
+import tmdb from "@/api/tmdb";
 
-async function useFetchData() {
-  const token = process.env.NEXT_PUBLIC_TMDB_API_TOKEN;
-  const url = process.env.NEXT_PUBLIC_TMDB_DISCOVER_URL;
-
+export default async function fetchData() {
   try {
-    const res = await axios.get(url, {
-      headers: {
-        Authorization: "Bearer " + token,
-        language: "en-US",
-      },
-    });
-    return res;
+    const res = await tmdb.get("/movie/popular");
+    return res.data.results;
   } catch (error) {
     return error;
   }
 }
-
-export default useFetchData;

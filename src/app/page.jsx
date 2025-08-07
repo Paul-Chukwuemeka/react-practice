@@ -1,7 +1,6 @@
 import { TbNumber123, TbQuote, TbColorPicker, TbCloud } from "react-icons/tb";
 import Link from "next/link";
-import { MdMovie }  from "react-icons/md";
-
+import { MdMovie } from "react-icons/md";
 
 function Home() {
   return (
@@ -50,7 +49,11 @@ function Home() {
             Movie Database <MdMovie />
           </button>
         </Link>
-        
+        <Link href="/password-generator">
+          <button className="p-4 w-fit flex gap-1 items-center justify-center bg-red-500 text-white rounded-lg mt-2 cursor-pointer hover:bg-red-600 active:scale-95 duration-450">
+            Password Generator ****
+          </button>
+        </Link>
       </div>
     </div>
   );
