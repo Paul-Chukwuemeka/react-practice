@@ -29,11 +29,6 @@ function Page() {
     if (checks.numbers) setChars((prev) => prev + options.Numbers);
     if (checks.symbols) setChars((prev) => prev + options.Symbols);
 
-    let value = 0
-    for (let key in checks){
-        if(checks[key] == true) value++ 
-    }
-    setStrength(value)
   }, [checks]);
 
   function generatePassword() {
