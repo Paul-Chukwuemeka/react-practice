@@ -5,12 +5,16 @@ import { FaCopy } from "react-icons/fa6";
 
 function Page() {
   const [passwordLength, setPasswordLength] = useState(4);
-  const [checks,setChecks] = useState({
-    uppercase:false,
-    lowercase:false,
-    numbers:false,
-    symbols:false
-  })
+  const [strengthLevel, setStrengthLevel] = useState({
+    level: "weak",
+    colour: "red-500",
+  });
+  const [checks, setChecks] = useState({
+    uppercase: true,
+    lowercase: false,
+    numbers: false,
+    symbols: false,
+  });
   const [chars, setChars] = useState("");
   const [password, setPassword] = useState("");
   const [strength, setStrength] = useState(0);
@@ -28,19 +32,66 @@ function Page() {
     if (checks.lowercase) setChars((prev) => prev + options.Lowercase);
     if (checks.numbers) setChars((prev) => prev + options.Numbers);
     if (checks.symbols) setChars((prev) => prev + options.Symbols);
-
   }, [checks]);
 
   function generatePassword() {
     setPassword("");
-   if(chars){
-     for (let i = 0; i <= passwordLength; i++) {
-        const random = Math.floor(Math.random() * chars.length)
-        console.log(chars[random])
-        setPassword((prev)=> prev + chars[random])
+    if (chars) {
+      for (let i = 0; i <= passwordLength; i++) {
+        const random = Math.floor(Math.random() * chars.length);
+        setPassword((prev) => prev + chars[random]);
+      }
     }
-   }
   }
+
+  useEffect(() => {
+    setStrength(0);
+    if (passwordLength > 8) {
+      setStrength((prev) => prev + 1);
+    }
+    let checksCount = 0;
+    for (let key in checks) {
+      if (checksCount >= 3) {
+        checksCount = 3;
+      } else {
+        if (checks[key] == true) checksCount++;
+      }
+    }
+    setStrength((prev) => prev + checksCount);
+  }, [checks, passwordLength]);
+
+  useEffect(() => {
+    if (strength < 2) {
+      setStrengthLevel({
+        level: "weak",
+        colour: "red-500",
+      });
+    } else if (strength == 2) {
+      setStrengthLevel({
+        level: "medium",
+        colour: "yellow-500",
+      });
+    } else if (strength == 3) {
+      setStrengthLevel({
+        level: "strong",
+        colour: "lime-500",
+      });
+    } else {
+      setStrengthLevel({
+        level: "very strong",
+        colour: "green-500",
+      });
+    }
+  }, [strength]);
+
+  // for strength
+
+  /*
+  lenght > 8 = strength + 1
+  every option picked increases strength by 1 
+  
+  
+  */
 
   return (
     <div className="w-full gap-10 h-screen flex flex-col items-center text-white p-20">
@@ -73,7 +124,9 @@ function Page() {
             <span className="text-lg flex items-center gap-2 font-bold">
               <button
                 className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
-                onClick={() => setChecks({...checks,uppercase:!checks.uppercase})}
+                onClick={() =>
+                  setChecks({ ...checks, uppercase: !checks.uppercase })
+                }
               >
                 {checks.uppercase && <FaCheck />}
               </button>
@@ -82,7 +135,9 @@ function Page() {
             <span className="text-lg flex items-center gap-2 font-bold">
               <button
                 className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
-                onClick={() => setChecks({...checks,lowercase:!checks.lowercase})}
+                onClick={() =>
+                  setChecks({ ...checks, lowercase: !checks.lowercase })
+                }
               >
                 {checks.lowercase && <FaCheck />}
               </button>
@@ -91,7 +146,9 @@ function Page() {
             <span className="text-lg flex items-center gap-2 font-bold">
               <button
                 className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
-                onClick={() => setChecks({...checks,numbers:!checks.numbers})}
+                onClick={() =>
+                  setChecks({ ...checks, numbers: !checks.numbers })
+                }
               >
                 {checks.numbers && <FaCheck />}
               </button>
@@ -100,7 +157,9 @@ function Page() {
             <span className="text-lg flex items-center gap-2 font-bold">
               <button
                 className="w-5 h-5 border rounded-full flex items-center justify-center  text-sm"
-                onClick={() => setChecks({...checks,symbols:!checks.symbols})}
+                onClick={() =>
+                  setChecks({ ...checks, symbols: !checks.symbols })
+                }
               >
                 {checks.symbols && <FaCheck />}
               </button>
@@ -110,11 +169,15 @@ function Page() {
 
           <div className="flex font-bold items-center justify-between bg-gray-800 p-4 text-2xl">
             <h3 className="">Strength</h3>
-            <div className=" flex gap-1 h-full *:border *:w-4 *:h-full">
-              <div className={``}></div>
-              <div></div>
-              <div></div>
-              <div></div>
+
+            <div className=" flex gap-1 h-full w-full justify-end *:shrink-0 *:border *:w-4 *:h-full">
+              <p className="min-w-fit border-none capitalize px-3">
+                {strengthLevel.level}
+              </p>
+              <div className={`bg-${strengthLevel.colour}`}></div>
+              <div className={`bg-${strength >= 2 && strengthLevel.colour}`}></div>
+              <div className={`bg-${strength >= 3 && strengthLevel.colour }`}></div>
+              <div className={`bg-${strength == 4 && strengthLevel.colour}`}></div>
             </div>
           </div>
           <button
