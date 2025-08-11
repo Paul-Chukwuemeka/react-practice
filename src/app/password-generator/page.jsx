@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaLongArrowAltRight, FaCheck } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa6";
+import HomeBtn from "../components/HomeBtn";
 
 function Page() {
   const [passwordLength, setPasswordLength] = useState(4);
@@ -95,6 +96,7 @@ function Page() {
 
   return (
     <div className="w-full gap-10 h-screen flex flex-col items-center text-white p-20">
+      <HomeBtn/>
       <h1 className=" text-3xl font-bold">Password Generator</h1>
       <div className="bg-gray-800 h-130 gap-4 flex flex-col rounded-lg p-2 shadow-lg w-full max-w-120">
         <div className="flex  w-full items-center justify-between px-10 bg-gray-900 h-15 rounded-lg">
