@@ -35,10 +35,6 @@ const Main = () => {
     }
   }, [trending]);
 
-  useEffect(() => {
-    console.log(current);
-  }, [current]);
-
   return (
     <div
       className={`flex-1 gap-4 ${
