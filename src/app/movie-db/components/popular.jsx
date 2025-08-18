@@ -39,14 +39,10 @@ const Popular = () => {
                   </div>
                 );
               })
-          : popular &&
-            popular.map((item, i) => {
+          : popular && popular.map((item, i) => {
               return (
-                <div>
-                  <div
-                    key={i}
-                    className=" duration-250 cursor-pointer  shrink-0 h-70 w-50"
-                  >
+                <div className="w-50 hover:scale-105" key={i}>
+                  <div className=" duration-250 cursor-pointer  shrink-0 h-70 w-50">
                     <Image
                       width={200}
                       height={240}
@@ -57,6 +53,9 @@ const Popular = () => {
                       className="w-full h-auto object-cover"
                     />
                   </div>
+                  <p className="w-full p-1 font-bold backdrop-blur-2xl text-lg truncate">
+                    {item.title}
+                  </p>
                 </div>
               );
             })}
