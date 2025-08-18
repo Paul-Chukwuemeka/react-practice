@@ -1,31 +1,29 @@
 "use client";
-import React, { use } from "react";
 import AppContext from "@/contexts/contexts";
 import { useContext, useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import useFetchPopular from "@/hooks/usefetchPopular";
 import useFetchTrendingMovies from "@/hooks/usefetchTrending";
+
 import Loading from "./loading";
+import { FaPlay } from "react-icons/fa6";
+import ActionMovies from "./genres/actionMovies";
+import AnimationMovies from "./genres/animationMovies";
+import ComedyMovies from "./genres/comedyMovies";
+import ScifiMovies from "./genres/sci_fi";
+import Popular from "./popular";
 
 const Main = () => {
   const { darkMode } = useContext(AppContext);
-  const [popular, setPopular] = useState([]);
   const [trending, setTrending] = useState([]);
-  const [position, setPosition] = useState(0);
+  const [currentTrending, setCurrentTrending] = useState(0);
   const [isTrendingLoading, setIsTrendingLoading] = useState(true);
-  const [isPopularLoading, setIsPopularLoading] = useState(true);
   const banner = useRef(null);
 
   const baseImageUrl = process.env.NEXT_PUBLIC_TMDB_IMAGE_URL;
 
   useEffect(() => {
-    async function getData() {
-      setIsPopularLoading(true)
-      const response = await useFetchPopular();
-      setPopular(response);
-      setIsPopularLoading(false);
-    }
-    getData();
+
     async function getTrending() {
       setIsTrendingLoading(true);
       const response = await useFetchTrendingMovies();
@@ -38,16 +36,14 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    const scroll = setInterval(() => {
-      if (banner.current) {
-        setPosition(
-          (prev) =>
-            (prev + banner.current.clientWidth) %
-            (trending.length * banner.current.clientWidth)
-        );
-      }
-    }, 1000);
-    return () => clearInterval(scroll);
+    if (trending.length == 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentTrending((prev) =>
+        prev >= trending.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
+    return () => clearInterval(interval);
   }, [trending]);
 
   return (
@@ -61,19 +57,32 @@ const Main = () => {
         <button>Series</button>
       </div>
       <div
-        className=" h-100 w-full  max-w-300 overflow-hidden "
+        className=" h-120 w-full relative max-w-300 overflow-hidden"
         ref={banner}
       >
+        <div className="w-full flex flex-col  justify-between h-full absolute z-40 p-10  bg-[#ffffff00]">
+          <h1 className="bg-black/40 backdrop-blur-sm text-3xl font-bold text-white px-3 py-1 rounded-lg w-fit">
+            {trending[currentTrending]?.title}
+          </h1>
+          <button className="flex items-center text-xl w-fit p-2 gap-1">
+            Watch Now <FaPlay />
+          </button>
+        </div>
         {isTrendingLoading ? (
           <>
             <Loading />
           </>
         ) : (
           <div
-            className={`flex *:shrink-0 h-100 w-fit  ${
-              position === 0 ? "duration-0 transition-none" : "duration-300"
-            }`}
-            style={{ transform: `translateX(-${position}px)` }}
+            className={`flex *:shrink-0 h-120 w-fit  
+              ${currentTrending == 0 ? "duration-0" : "duration-300"} 
+            `}
+            style={{
+              transform: `translateX(-${
+                currentTrending *
+                (banner.current.clientWidth ? banner.current.clientWidth : 0)
+              }px)`,
+            }}
           >
             {trending &&
               trending.map((item, i) => {
@@ -82,67 +91,22 @@ const Main = () => {
                     key={i}
                     src={baseImageUrl + item.backdrop_path}
                     width={1200}
-                    height={400}
+                    height={480}
+                    priority
                     alt=""
                     aria-label=""
-                    className="w-full h-full object-fill"
+                    className="w-full h-full "
                   />
                 );
               })}
           </div>
         )}
       </div>
-      <h1 className="text-left px-4 w-full text-xl font-bold">
-        Popular Movies
-      </h1>
-      <div className="w-full movies flex gap-4 overflow-x-scroll p-4 py-1 ">
-        {isPopularLoading
-          ? Array(10)
-              .fill("")
-              .map((_, i) => {
-                return (
-                  <div
-                    key={i}
-                    className=" border duration-250 cursor-pointer shrink-0 h-70 w-50"
-                  >
-                    <Loading />
-                  </div>
-                );
-              })
-          : popular &&
-            popular.map((item, i) => {
-              return (
-                <div
-                  key={i}
-                  className=" duration-250 cursor-pointer hover:scale-105 shrink-0 h-70 w-50"
-                >
-                  <Image
-                    width={200}
-                    height={240}
-                    src={`${baseImageUrl + item.poster_path}`}
-                    alt={item.title}
-                    aria-label={item.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              );
-            })}
-      </div>
-      <h1 className="text-left w-full px-4 text-xl font-bold">
-        Popular Series
-      </h1>
-      <div className="w-full movies flex gap-4 overflow-x-scroll p-4 py-1 ">
-        {Array(10)
-          .fill("")
-          .map((_, i) => {
-            return (
-              <div
-                key={i}
-                className="border shrink-0 h-60 w-50 cursor-pointer duration-250 hover:scale-105 "
-              ></div>
-            );
-          })}
-      </div>
+      <Popular/>
+     <ActionMovies/>
+     <AnimationMovies/>
+     <ScifiMovies/>
+     <ComedyMovies/>
     </div>
   );
 };

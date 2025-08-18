@@ -6,6 +6,8 @@ const tmdb = axios.create({
     api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY,
     language: "en-US",
     page: 1,
+    sort_by: "popularity.desc",
+    include_adult: false,
   },
 });
 

@@ -8,7 +8,7 @@ const Header = () => {
   const { darkMode, setDarkMode } = useContext(AppContext);
   return (
     <div
-      className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} flex shadow-2xl   w-full sticky top-0 left-0  p-4 px-10 justify-between`}
+      className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} flex shadow-2xl z-50   w-full sticky top-0 left-0  p-4 px-10 justify-between`}
     >
       <h1 className="flex items-center gap-1 text-xl font-bold">
         RTB Movies <MdMovie className="text-amber-500" />

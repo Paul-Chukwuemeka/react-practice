@@ -1,7 +1,7 @@
 "use client";
 import tmdb from "@/api/tmdb";
 
-export default async function fetchPopular() {
+export default async function useFetchPopular() {
   try {
     const res = await tmdb.get("/movie/popular");
     return res.data.results;
